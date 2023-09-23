@@ -1,6 +1,7 @@
 // controller/users.controller.js
 
 const usersService = require('../services/users.service');
+const userValidation = require('../validations/users.validation');
 
 class UsersController {
     constructor() {}
@@ -19,12 +20,26 @@ class UsersController {
 
     // create data 
     async create(req, res) {
+        // validate the request data 
+        const validationErrors = await userValidation.create(req.body);
+        if (validationErrors.length > 0) {
+            return res.status(400).send(validationErrors);
+        }
+        
+        // create the user
         const user = await usersService.create(req.body);
         res.json(user);
     }
 
     // update data by id
     async update(req, res) {
+        // validate the request data 
+        const validationErrors = await userValidation.update(req.body);
+        if (validationErrors.length > 0) {
+            return res.status(400).send(validationErrors);
+        }
+        
+        // update the user
         const user = await usersService.update(req.params.id, req.body);
         res.json(user);
     }

@@ -6,7 +6,7 @@ class UserService {
     constructor() {}
 
     async getAll() {
-        const users = await UserModel.find();
+        const users = await UserModel.findAll();
         return users;
     }
 

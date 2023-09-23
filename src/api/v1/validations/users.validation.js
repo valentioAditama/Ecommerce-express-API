@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 
-const userValidatoin = () => {
+const userValidation = () => {
     return [
         check('fullname').exists().notEmpty(),
         check('email').exists().notEmpty().isEmail(),
@@ -8,4 +8,4 @@ const userValidatoin = () => {
     ];
 };
 
-module.exports = userValidatoin;
+module.exports = userValidation;
