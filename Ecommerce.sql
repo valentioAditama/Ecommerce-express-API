@@ -21,7 +21,7 @@ CREATE TABLE `products` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-);
+); 
 
 CREATE TABLE `product_attributes` (
   `id` INT NOT NULL AUTO_INCREMENT,
