@@ -1,32 +1,35 @@
-const db = require('../models/users');
-const User = db.users;
+const User = require('../models/users');
 
-// create
+exports.getAllUsers = (req, res) => {
+    User.getAll((err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal server error"});
+            return;
+        }
+        res.json(result);
+    });
+};
+
+exports.getFindId = (req, res) => {
+    const userId = req.query.id;
+
+};
+
 exports.create = (req, res) => {
-    // const user = {
-    //     fullname: req.body.fullname, 
-    //     email: req.body.email, 
-    //     password: req.body.password, 
-    //     role: req.body.role, 
-    //     is_active: req.body.is_active
-    // };
-    // res.json({user});
+    const fullname = req.body.fullname; 
+    const email = req.body.email; 
+    const password = req.body.password; 
+    const role = req.body.role; 
+    const is_active = req.body.is_active; 
 
-    db.get(req.con, (error, result) => {
-        res.json(result)
-    });
+    User.create(fullname, email, password, role, is_active, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ message: "internal server error"});
+            return;
+        }
 
-    db.create(req.con, (error, result) => {
-        Biodata.create(req.con, req.body, function(err, result) {
-            res.send(result)
-        })
-    });
+        res.json(result);
+    })
 }
-
-// get all
-
-// find id 
-
-// update 
-
-// delete
