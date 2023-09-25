@@ -1,23 +1,17 @@
-const Sequelize = require('sequelize');
+module.exports = {
+  get: function(con, callback) {
+    con.query("SELECT * FROM users")
+  },
 
-module.exports = (sequelize, Sequelize) => {
-  const Users = sequelize.define('users', {
-    fullname: {
-      type: DataTypes.STRING
-    }, 
-    email: {
-      type: DataTypes.STRING
-    }, 
-    password: {
-      type: DataTypes.STRING
-    }, 
-    role: {
-      type: DataTypes.TEXT('tiny')
-    }, 
-    is_active: {
-      type: DataTypes.TEXT('tiny')
-    },
-  }); 
-  
-  return Users;
+  create: function(con, data, callback) {
+    con.query(
+      `INSERT INTO users SET 
+      fullname = '${data.fullname}', 
+      email = '${data.email}',
+      password = '${data.password}'
+      role = '${data.role}'
+      is_active = '${data.is_active}'`,
+      callback
+    )
+  },
 }
