@@ -10,6 +10,8 @@ exports.create = (req, res) => {
         role: req.body.role, 
         is_active: req.body.is_active
     };
+
+    res.json({user});
 }
 
 // get all
