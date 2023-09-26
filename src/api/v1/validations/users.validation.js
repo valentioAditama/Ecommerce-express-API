@@ -1,11 +1,9 @@
-const { check } = require("express-validator");
+const { check } = require('express-validator');
 
-const userValidation = () => {
-  return [
-    check("fullname").exists().notEmpty(),
-    check("email").exists().notEmpty().isEmail(),
-    check("password").exists().notEmpty().minLength(8),
-  ];
-};
-
-module.exports = userValidation;
+exports.userValidationRules = () => [
+  check('fullname').notEmpty().withMessage('Fullname is required'),
+  check('email').isEmail().withMessage('Invalid email').normalizeEmail(),
+  check('password')
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters'),
+];

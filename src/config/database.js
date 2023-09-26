@@ -1,5 +1,5 @@
-var mysql = require("mysql");
-var db = require("./db.config");
+var mysql = require('mysql');
+var db = require('./db.config');
 
 var connection = mysql.createConnection({
   host: db.HOST,
@@ -13,7 +13,7 @@ connection.connect((err) => {
     console.log(err);
     return;
   }
-  console.log("databases connected");
+  console.log('databases connected');
 });
 
 module.exports = connection;
