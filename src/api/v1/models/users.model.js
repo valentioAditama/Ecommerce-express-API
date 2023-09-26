@@ -60,25 +60,45 @@ class User {
     );
   }
 
-  static update(fullname, email, password, role, is_active, id) {
+  static update(fullname, email, password, userId, callback) {
     db.query(
-      `UPDATE users SET fullname = '${fullname}', email = '${email}', password = '${password}', role = '${role}', is_active = '${is_active}' WHERE id = ${id}, `,
+      `UPDATE users SET fullname = '${fullname}', email = '${email}', password = '${password}' where id = ${userId}`,
       (err, result) => {
         if (err) {
           return callback(err, null);
         }
-        const updateUser = new User(
-          result.insertId,
-          fullname,
-          email,
-          password,
-          role,
-          is_active,
-        );
-        return callback(null, updateUser);
+
+        if (result.affectedRows === 0) {
+          return callback(null, null);
+        }
+
+        const updatedUser = new User(userId, fullname, email, password);
+
+        return callback(null, updatedUser);
+      },
+    );
+  }
+
+  static delete(userId, is_active, callback) {
+    db.query(
+      `UPDATE users SET is_active = '${is_active}' where id = ${userId}`,
+      (err, result) => {
+        if (err) {
+          return callback(err, null);
+        }
+
+        if (result.affectedRows === 0) {
+          return callback(null, null);
+        }
+
+        let deleteUsers = {
+          id: userId,
+          is_active: is_active,
+        };
+
+        return callback(null, deleteUsers);
       },
     );
   }
 }
-
 module.exports = User;

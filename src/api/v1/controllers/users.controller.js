@@ -91,29 +91,93 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-      // update users
-      const idUser  = req.params.id;
-      const { fullname, email, password, role, is_active } = req.body;
-
-    // update user data
-    const updateUser = await User.update(fullname, email, password, role, is_active, idUser);
-
-    if (!updateUser) {
-      res.status(404).json({
-        code: 404,
-        status: 'NOT_FOUND',
+    // validate request data
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        code: 400,
+        status: 'BAD_REQUEST',
+        message: errors.array(),
       });
     }
 
-    res.status(200).json({
-      code: 200,
-      status: 'OK UPDATED DATA',
-      data: updateUser,
+    // update users
+    const userId = req.params.id;
+    const { fullname, email, password } = req.body;
+
+    User.update(fullname, email, password, userId, (err, result) => {
+      if (err) {
+        res.status(400).json({
+          code: 400,
+          status: 'BAD_REQUEST',
+          message: err,
+        });
+      }
+
+      if (!result) {
+        res.status(404).json({
+          code: 404,
+          status: 'NOT_FOUND',
+        });
+        return;
+      }
+
+      res.status(200).json({
+        code: 200,
+        status: 'DATA UPDATED OK',
+        data: result,
+      });
     });
-
-
   } catch (error) {
     console.error(error);
+    return res.status(500).json({
+      code: 500,
+      status: 'INTERNAL_SERVER_ERROR',
+    });
+  }
+};
+
+exports.destory = async (req, res) => {
+  try {
+    // validate request data
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        code: 400,
+        status: 'BAD_REQUEST',
+        errors: errors.array(),
+      });
+    }
+
+    // deleted data
+    const userId = req.params.id;
+    const is_active = 0;
+
+    User.delete(userId, is_active, (err, result) => {
+      if (err) {
+        res.status(400).json({
+          code: 400,
+          status: 'BAD_REQUEST',
+          message: err,
+        });
+      }
+
+      if (!result) {
+        res.status(404).json({
+          code: 404,
+          status: 'NOT_FOUND',
+        });
+        return;
+      }
+
+      res.status(200).json({
+        code: 200,
+        status: 'DATA DELETED OK',
+        data: result,
+      });
+    });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({
       code: 500,
       status: 'INTERNAL_SERVER_ERROR',
