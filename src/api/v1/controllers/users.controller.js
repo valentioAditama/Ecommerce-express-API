@@ -48,46 +48,75 @@ exports.findById = (req, res) => {
   });
 };
 
-
-// Create a new user
 exports.create = async (req, res) => {
   try {
     // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        code: 400, 
-        status: "BAD_REQUEST",
-        errors: errors.array() 
+      return res.status(400).json({
+        code: 400,
+        status: 'BAD_REQUEST',
+        message: errors.array(),
       });
     }
 
     // Create a new user
     const { fullname, email, password } = req.body;
-    const role = 1; 
-    const is_active = 1; 
+    const role = 1;
+    const is_active = 1;
 
     User.create(fullname, email, password, role, is_active, (err, result) => {
       if (err) {
-        res.status(400).json({ 
-          code: 400, 
-          status: "BAD_REQUEST",
-          errors: err
+        res.status(400).json({
+          code: 400,
+          status: 'BAD_REQUEST',
+          message: err,
         });
-      } else { 
-        res.status(201).json({ 
-          code: 201, 
+      } else {
+        res.status(201).json({
+          code: 201,
           status: 'DATA CREATED OK',
-          data: result 
+          data: result,
         });
       }
     });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      status: 'INTERNAL_SERVER_ERROR',
+    });
+  }
+};
+
+exports.update = async (req, res) => {
+  try {
+      // update users
+      const idUser  = req.params.id;
+      const { fullname, email, password, role, is_active } = req.body;
+
+    // update user data
+    const updateUser = await User.update(fullname, email, password, role, is_active, idUser);
+
+    if (!updateUser) {
+      res.status(404).json({
+        code: 404,
+        status: 'NOT_FOUND',
+      });
+    }
+
+    res.status(200).json({
+      code: 200,
+      status: 'OK UPDATED DATA',
+      data: updateUser,
+    });
+
 
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
-      code: 500, 
-      status: 'INTERNAL_SERVER_ERROR'
+    return res.status(500).json({
+      code: 500,
+      status: 'INTERNAL_SERVER_ERROR',
     });
   }
 };

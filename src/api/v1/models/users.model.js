@@ -59,6 +59,26 @@ class User {
       },
     );
   }
+
+  static update(fullname, email, password, role, is_active, id) {
+    db.query(
+      `UPDATE users SET fullname = '${fullname}', email = '${email}', password = '${password}', role = '${role}', is_active = '${is_active}' WHERE id = ${id}, `,
+      (err, result) => {
+        if (err) {
+          return callback(err, null);
+        }
+        const updateUser = new User(
+          result.insertId,
+          fullname,
+          email,
+          password,
+          role,
+          is_active,
+        );
+        return callback(null, updateUser);
+      },
+    );
+  }
 }
 
 module.exports = User;
