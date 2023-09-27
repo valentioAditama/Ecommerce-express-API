@@ -1,7 +1,7 @@
 CREATE TABLE `users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fullname` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `role` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,

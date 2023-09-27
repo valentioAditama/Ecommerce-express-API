@@ -15,35 +15,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(usersRouter);
 
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-
-app.post("/login/generateToken",(req, res) => {
-
-// Access the JWT secret key from the environment variables.
-const secretKey = process.env.JWT_SECRET_KEY;
-
-// Payload data to include in the token.
-const payload = { username: "root" };
-
-// Generate a JWT token with the payload and secret key.
-const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
-
-res.send(token);
-});
-
-app.post("/login/checkJWT",(req, res) => {
-
-    // Access the JWT secret key from the environment variables.
-    const secretKey = process.env.JWT_SECRET_KEY;
-    
-    // Payload data to include in the token.
-    const payload = { username: "root" };
-    
-    // Generate a JWT token with the payload and secret key.
-    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
-    
-    res.send(token);
-    });
-
 module.exports = app;
