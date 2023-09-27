@@ -16,15 +16,9 @@ router.post(
   loginValidation(),
   loginUsersController.login,
 );
-router.post(
-  '/api/v1/users/register',
-  registerValidation(),
-  registerUsersController.create,
-);
-
+router.post('/api/v1/users', usersValidation(), usersController.create);
 router.get('/api/v1/users', usersController.getAllUsers);
 router.get('/api/v1/users/:id', usersController.findById);
-router.post('/api/v1/users', usersValidation(), usersController.create);
 router.put('/api/v1/users/:id', usersValidation(), usersController.update);
 router.delete('/api/v1/users/:id', usersController.destory);
 

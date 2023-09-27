@@ -8,29 +8,31 @@ exports.login = async (req, res) => {
 
   try {
     // retrive the user from the database
-    db.query(`select * from users where email = '${email}'`, (err, result) => {
-      if (result.length == 0) {
-        return res.status(400).json({
-          code: 400,
-          status: 'NOT FOUND',
-        });
-      }
-
-      return res.send(result[0].password);
+    db.query(`select * from users where email = '${email}'`,  async (err, result) => {
+      if (result.length > 0) {
+        const comparison = await bcrypt.compare(password, result[0].password);
+        if (comparison) {
+          res.status(200).json({
+            code: 200, 
+            status: "OK",
+            message: "Successfully Login",
+            data: result
+          })
+        } else {
+          res.status(401).json({
+            code: 401, 
+            status: "401 Unauthorized",
+            message: "Email or password does not match"
+          });
+        }          
+      } else {
+        res.status(404).json({
+          code: 404, 
+          status: "NOT FOUND",
+          message: "Email Not Found"
+        })
+      }      
     });
-
-    // const user = rows[0];
-
-    // // compare the provided password with the stored hash
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    // if (!isPasswordValid) {
-    //     return res.status(400).json({
-    //         code: 400,
-    //         status: "BAD REQUEST",
-    //         message: "Invalid Password"
-    //     });
-    // }
 
     // // store user information in the sesison
     // req.session.userId = user.id;
