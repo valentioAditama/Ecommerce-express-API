@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const db = require('../../../../config/database');
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body;  
 
   try {
     // retrive the user from the database
