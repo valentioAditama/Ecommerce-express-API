@@ -11,7 +11,7 @@ class User {
   }
 
   static getAll(callback) {
-    db.query(`SELECT * FROM users`, (err, result) => {
+    db.query(`SELECT * FROM users where is_active = 1`, (err, result) => {
       if (err) {
         return callback(err, null);
       }
@@ -20,23 +20,26 @@ class User {
   }
 
   static findById(id, callback) {
-    db.query(`SELECT * FROM users WHERE id = ${id}`, (err, result) => {
-      if (err) {
-        return callback(err, null);
-      }
-      if (result.length === 0) {
-        return callback(null, null);
-      }
-      const user = new User(
-        result[0].id,
-        result[0].fullname,
-        result[0].email,
-        result[0].password,
-        result[0].role,
-        result[0].is_active,
-      );
-      return callback(null, user);
-    });
+    db.query(
+      `SELECT * FROM users WHERE id = ${id} is_active = 1`,
+      (err, result) => {
+        if (err) {
+          return callback(err, null);
+        }
+        if (result.length === 0) {
+          return callback(null, null);
+        }
+        const user = new User(
+          result[0].id,
+          result[0].fullname,
+          result[0].email,
+          result[0].password,
+          result[0].role,
+          result[0].is_active,
+        );
+        return callback(null, user);
+      },
+    );
   }
 
   static create(fullname, email, password, role, is_active, callback) {

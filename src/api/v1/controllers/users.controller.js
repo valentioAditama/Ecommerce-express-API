@@ -11,10 +11,27 @@ exports.getAllUsers = (req, res) => {
       });
       return;
     }
+
+    const page = parseInt(req.query.page);
+    const pageSize = parseInt(req.query.pageSize);
+
+    // Calculate the offset to skip records
+    const offset = (page - 1) * pageSize;
+
+    // Get a slice of data based on the pagination parameters
+    const paginatedData = result.slice(offset, offset + pageSize);
+
+    // response
     res.status(200).json({
       code: 200,
       status: 'OK',
-      data: result,
+      data: paginatedData,
+      page: {
+        size: pageSize,
+        total: result.length,
+        totalPages: Math.ceil(result.length / pageSize),
+        current: page,
+      },
     });
   });
 };
