@@ -36,6 +36,7 @@ CREATE TABLE `product_attributes` (
 CREATE TABLE `product_photos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `products_id` INT NOT NULL,
+  `path` VARCHAR(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
