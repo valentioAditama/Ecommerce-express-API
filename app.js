@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(usersRouter);
 app.use(productRouter);
-app.use(productPhotosRouter);
+app.use(productPhotosRouter); 
 app.use(productAttributesRouter);
 app.use(checkoutRouter);
 app.use(cartRouter);
