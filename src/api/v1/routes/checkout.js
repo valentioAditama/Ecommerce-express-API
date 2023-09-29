@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 const checkoutController = require('../controllers/checkout.controller');
-const { validation } = require('../validations/checkout.validation');
+const { checkout } = require('../validations/checkout.validation');
 
 router.get('/api/v1/checkout', checkoutController.getAll);
 router.get('/api/v1/checkout/:id', checkoutController.findById);
-router.post('/api/v1/checkout', validation(), checkoutController.create);
+router.post('/api/v1/checkout', checkout(), checkoutController.create);
 router.put(
   '/api/v1/checkout/:id',
-  validation(),
+  checkout(),
   checkoutController.update,
 );
 

@@ -35,7 +35,7 @@ exports.getAll = (req, res) => {
   });
 };
 
-exports.getById = (req, res) => {
+exports.findById = (req, res) => {
   const id = req.params.id;
   Product_photos.getById(id, (err, result) => {
     if (err) {

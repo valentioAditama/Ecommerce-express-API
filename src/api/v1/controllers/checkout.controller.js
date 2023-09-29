@@ -106,6 +106,42 @@ exports.create = (req, res) => {
   }
 };
 
+exports.update = (req, res) => {
+  const id = req.params.id;
+  const { products_id, totally } = req.body;
+
+  Checkout.update(
+    {
+      products_id,
+      totally,
+    },
+    id,
+    (err, result) => {
+      if (err) {
+        res.status(500).json({
+          code: 500,
+          status: 'INTERNAL SERVER ERROR',
+        });
+        return;
+      }
+
+      if (!result) {
+        res.status(404).json({
+          code: 404,
+          status: 'NOT FOUND',
+        });
+        return;
+      }
+
+      res.status(200).json({
+        code: 200,
+        status: 'OK',
+        data: result,
+      });
+    },
+  );
+}
+
 exports.destory = (req, res) => {
   const id = req.params.id;
   Checkout.delete(id, (err, result) => {

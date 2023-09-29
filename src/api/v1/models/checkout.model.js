@@ -36,10 +36,10 @@ class Checkout {
     );
   }
 
-  static update(id, products_id, totally, status, callback) {
+  static update(id, products_id, totally, callback) {
     db.query(
-      'UPDATE checkout SET products_id =?, totally =?, status =? WHERE id =?',
-      [products_id, totally, status, id],
+      'UPDATE checkout SET products_id =?, totally =? WHERE id =?',
+      [products_id, totally, id],
       (err, result) => {
         if (err) throw err;
         if (result.length === 0) {
@@ -53,7 +53,7 @@ class Checkout {
   static delete(id, callback) {
     db.query(
       'UPDATE checkout SET status = 0 WHERE id =?',
-      [status, id],
+      [id],
       (err, result) => {
         if (err) throw err;
         if (result.length === 0) {

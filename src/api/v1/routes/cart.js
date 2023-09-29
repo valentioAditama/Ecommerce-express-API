@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 const cartController = require('../controllers/cart.controller');
-const { validation } = require('../validations/cart.validation');
+const { cart } = require('../validations/cart.validation');
 
 router.get('/api/v1/cart', cartController.getAll);
 router.get('/api/v1/cart/:id', cartController.findById);
-router.post('/api/v1/cart', validation(), cartController.create);
+router.post('/api/v1/cart', cart(), cartController.create);
 router.put(
   '/api/v1/cart/:id',
-  validation(),
+  cart(),
   cartController.update,
 );
 
