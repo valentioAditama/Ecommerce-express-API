@@ -20,6 +20,7 @@ exports.login = async (req, res) => {
               message: 'Successfully Login',
               data: result,
             });
+            
           } else {
             res.status(401).json({
               code: 401,
@@ -36,9 +37,6 @@ exports.login = async (req, res) => {
         }
       },
     );
-
-    // // store user information in the sesison
-    // req.session.userId = user.id;
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -47,3 +45,18 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+exports.logout = async function(req, res) {
+  try {
+    res.status(200).json({
+      code: 200,
+      status: 'OK',
+      message: 'Successfully Logout',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      code: 500,
+      status: 'INTERNAL_SERVER_ERROR',
+    });
+  }
+}
